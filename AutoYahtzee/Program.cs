@@ -19,7 +19,7 @@ namespace AutoYahtzee
 
             while (GetSeed(out int seed))
             {
-                Yahtzee yahtzee = new Yahtzee(seed);
+                Yahtzee.Yahtzee yahtzee = new Yahtzee.Yahtzee(seed);
 
                 while (!yahtzee.IsYahtzee())
                 {
