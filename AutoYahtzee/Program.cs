@@ -17,36 +17,17 @@ namespace AutoYahtzee
             Console.WriteLine("This program will start throwing five pieces of six-sided dice until it throws five equal numbers.");
             Console.Write("Enter a seed value to begin or [ENTER] to quit: ");
 
-            int seed;
-
-            if (GetSeed(out seed))
+            while (GetSeed(out int seed))
             {
+                Yahtzee yahtzee = new Yahtzee(seed);
 
-                while (true)
+                while (!yahtzee.IsYahtzee())
                 {
-                    Random random = new Random(seed);
-                    int[] dice = new int[5];
-                    int throwcount = 0;
-
-                    do
-                    {
-                        for (int die = 0; die < 5; die++)
-                        {
-                            dice[die] = random.Next(1, 7);
-                            Console.Write(dice[die] + " ");
-                            throwcount++;
-                        }
-                        Console.WriteLine();
-                    }
-                    while (dice[0] != dice[1] || dice[0] != dice[2] || dice[0] != dice[3] || dice[0] != dice[4]); // I'm sure there's a more elegant way to do this.
-
-
-                    Console.WriteLine("Yahtzee! after " + throwcount + " throws. Used seed: " + seed);
-                    Console.Write("Enter a new seed or [ENTER] to quit: ");
-
-                    if (!GetSeed(out seed)) break;
-
+                    yahtzee.Throw();
                 }
+
+                Console.WriteLine("Yahtzee! after " + yahtzee.GetThrowcount() + " throws. Used seed: " + seed);
+                Console.Write("Enter a new seed or [ENTER] to quit: ");
             }
         }
 
@@ -63,6 +44,43 @@ namespace AutoYahtzee
                 }
                 else Console.Write("Please enter a number between " + Int32.MinValue + " and " + Int32.MaxValue + ": ");                
             }            
+        }
+    }
+
+    class Yahtzee
+    {
+        private int[] dice_;
+        private const int num_dice_ = 5;
+        private int throwcount_ = 0;
+        private Random random;       
+
+        public Yahtzee(int seed)
+        {
+            dice_ = new int[num_dice_];
+            random = new Random(seed);
+            Throw();
+        }
+
+        public void Throw()
+        {
+            for (int die = 0; die < num_dice_; ++die)
+            {
+                dice_[die] = random.Next(1, 7);
+                Console.Write(dice_[die] + " ");                                
+            }            
+            Console.WriteLine();
+            ++throwcount_;
+        }        
+
+        public bool IsYahtzee()
+        {
+            if (dice_[0] == dice_[1] && dice_[0] == dice_[2] && dice_[0] == dice_[3] && dice_[0] == dice_[4]) return true;
+            else return false;
+        }
+
+        public int GetThrowcount()
+        {
+            return throwcount_;
         }
     }
 }
