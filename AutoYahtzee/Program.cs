@@ -33,7 +33,7 @@ namespace AutoYahtzee
                 Random random = new Random(seed);
                 int[] dice = new int[5];
                 int throwcount = 0;
-
+                
                 do
                 {
                     for (int die = 0; die < 5; die++)
