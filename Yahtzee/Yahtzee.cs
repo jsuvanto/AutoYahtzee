@@ -37,6 +37,11 @@ namespace Yahtzee
         {
             return throwcount_;
         }
+
+        public int[] GetDice()
+        {
+            return dice_;
+        }
     }
 
 
